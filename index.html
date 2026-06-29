@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perguntas Anônimas · Ministério Jovem</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="hero">
+    <div class="container">
+        <div class="logo">
+            <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+                <circle cx="20" cy="20" r="19" stroke="currentColor" stroke-width="2"/>
+                <path d="M14 24c0-4 6-8 6-8s6 4 6 8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <circle cx="20" cy="15" r="3" fill="currentColor"/>
+            </svg>
+            <span>Ministério Jovem</span>
+        </div>
+
+        <h1>Mande sua pergunta<br><span class="highlight">de forma anônima</span></h1>
+        <p class="subtitle">
+            Dúvidas bíblicas, perguntas polêmicas, críticas construtivas ou<br>
+            qualquer coisa que você sempre quis perguntar — sem se identificar.
+        </p>
+    </div>
+</div>
+
+<main class="container">
+    <div class="card" id="form-card">
+        <form id="question-form">
+            <div class="form-group">
+                <label for="category">Categoria</label>
+                <select id="category" name="category" required>
+                    <option value="" disabled selected>Selecione uma categoria</option>
+                    <option value="pergunta-biblica">📖 Pergunta Bíblica</option>
+                    <option value="polemica">🔥 Pergunta Polêmica</option>
+                    <option value="critica">✋ Crítica / Sugestão</option>
+                    <option value="testemunho">💛 Testemunho</option>
+                    <option value="pedido-oracao">🙏 Pedido de Oração</option>
+                    <option value="outro">💬 Outro</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="question">Sua pergunta ou mensagem</label>
+                <textarea
+                    id="question"
+                    name="question"
+                    rows="6"
+                    placeholder="Digite aqui... (sem medo, ninguém vai saber quem escreveu)"
+                    maxlength="2000"
+                    required
+                ></textarea>
+                <div class="char-count"><span id="char-count">0</span>/2000</div>
+            </div>
+
+            <button type="submit" id="submit-btn">
+                <span class="btn-text">Enviar anonimamente</span>
+                <span class="btn-loader" style="display:none">
+                    <svg class="spinner" width="20" height="20" viewBox="0 0 24 24" fill="none">
+                        <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" stroke-dasharray="31.4 31.4" stroke-linecap="round"/>
+                    </svg>
+                </span>
+            </button>
+        </form>
+    </div>
+
+    <div class="card success-card" id="success-card" style="display:none">
+        <div class="success-icon">
+            <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+                <circle cx="32" cy="32" r="30" stroke="#22c55e" stroke-width="3"/>
+                <path d="M20 32l8 8 16-16" stroke="#22c55e" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+        <h2>Recebemos sua mensagem! ✅</h2>
+        <p>Sua pergunta chegou anonimamente. Vamos ler e responder em breve.</p>
+        <button class="btn-secondary" onclick="resetForm()">Enviar outra pergunta</button>
+    </div>
+
+    <div class="footer-info">
+        <p>🔒 100% anônimo · sem coleta de e-mail · sem IP armazenado</p>
+    </div>
+</main>
+
+<script src="script.js"></script>
+</body>
+</html>
