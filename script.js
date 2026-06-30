@@ -1,9 +1,9 @@
 // ============================================
 // Perguntas Anônimas · Ministério Jovem
 // ============================================
-
-// URL do Google Apps Script Web App
-const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzD6LONsGeHxh70J_I0ISe1SeTooivUEPhB79P01m8rlNowvpmayQYxv-31UzyGAGpw/exec';
+// APPS_SCRIPT_URL é carregado do config.js
+// (não hardcoded aqui — segurança!)
+// ============================================
 
 const form = document.getElementById('question-form');
 const formCard = document.getElementById('form-card');
@@ -24,6 +24,11 @@ textarea.addEventListener('input', () => {
 // Form submission
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
+
+  if (!APPS_SCRIPT_URL) {
+    alert('Erro de configuração: APPS_SCRIPT_URL não definido. Verifique o config.js.');
+    return;
+  }
 
   const category = document.getElementById('category').value;
   const question = textarea.value.trim();
