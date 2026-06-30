@@ -9,8 +9,8 @@
 
 // ID da planilha onde as respostas serão salvas
 // (depois de criar a planilha, cole o ID aqui)
-const SHEET_ID = 'COLE_O_ID_DA_SUA_PLANILHA_AQUI';
-const SHEET_NAME = 'Respostas';
+const SHEET_ID = '1fS0DCbte3PRyzObJcRA0ZrrjNwQb6fBCJ0N1erg0Ltg';
+const SHEET_NAME = 'Página1';
 
 function doPost(e) {
   try {

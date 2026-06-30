@@ -2,9 +2,8 @@
 // Perguntas Anônimas · Ministério Jovem
 // ============================================
 
-// ⚠️ TROQUE esta URL pela URL do seu Google Apps Script
-// Depois de criar o script, cole aqui:
-const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/SEU_ID_AQUI/exec';
+// URL do Google Apps Script Web App
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzD6LONsGeHxh70J_I0ISe1SeTooivUEPhB79P01m8rlNowvpmayQYxv-31UzyGAGpw/exec';
 
 const form = document.getElementById('question-form');
 const formCard = document.getElementById('form-card');
