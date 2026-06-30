@@ -6,4 +6,4 @@
 // ============================================
 
 // Usando o web app já deployado
-const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxpP3jOZ4PpzcV3qgz_3JA84i1bX7cMvHhddUot3iSTDjVg5KQikWdogpViGtwh-BBN/exec';
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzF9h7L4dF_dWJO3M1Hen8fwXiXoW38HLFQOxtz2c7g8bLsDhOxk4lEaGNyMZgP0_A5/exec';
