@@ -33,6 +33,9 @@
 <main class="container">
     <div class="card" id="form-card">
         <form id="question-form">
+            <!-- 🍯 Honeypot anti-spam — invisível pra humanos, bots preenchem -->
+            <input type="text" id="_hp" name="_hp" tabindex="-1" autocomplete="off">
+
             <div class="form-group">
                 <label for="category">Categoria</label>
                 <select id="category" name="category" required>

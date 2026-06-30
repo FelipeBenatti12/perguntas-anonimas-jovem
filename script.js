@@ -3,6 +3,7 @@
 // ============================================
 // APPS_SCRIPT_URL é carregado do config.js
 // (não hardcoded aqui — segurança!)
+// Anti-spam: session ID + honeypot
 // ============================================
 
 const form = document.getElementById('question-form');
@@ -13,6 +14,19 @@ const btnText = submitBtn.querySelector('.btn-text');
 const btnLoader = submitBtn.querySelector('.btn-loader');
 const textarea = document.getElementById('question');
 const charCount = document.getElementById('char-count');
+
+// ================================================
+// 🔑 Session ID — persiste no localStorage
+// Usado pelo rate limit no backend (CacheService)
+// ================================================
+function getSessionId() {
+  let sid = localStorage.getItem('oxgn_session_id');
+  if (!sid) {
+    sid = crypto.randomUUID();
+    localStorage.setItem('oxgn_session_id', sid);
+  }
+  return sid;
+}
 
 // Character counter
 textarea.addEventListener('input', () => {
@@ -41,10 +55,14 @@ form.addEventListener('submit', async (e) => {
   btnLoader.style.display = 'flex';
 
   try {
+    // Honeypot: campo _hp vem sempre vazio (bots preenchem)
+    const hpField = document.getElementById('_hp');
     const payload = {
       category: category,
       question: question,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
+      _hp: hpField ? hpField.value : '',
+      _sid: getSessionId()
     };
 
     const response = await fetch(APPS_SCRIPT_URL, {

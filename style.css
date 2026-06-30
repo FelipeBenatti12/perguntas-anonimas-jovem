@@ -333,3 +333,14 @@ textarea::placeholder {
     font-size: 24px;
   }
 }
+
+/* 🍯 Honeypot — invisível pra humanos, visível pra bots */
+#_hp {
+  position: absolute;
+  left: -99999px;
+  top: -99999px;
+  opacity: 0;
+  height: 0;
+  width: 0;
+  z-index: -1;
+}

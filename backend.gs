@@ -15,22 +15,61 @@
 // SEGURANÇA: SHEET_ID NÃO fica hardcoded aqui!
 // Os valores são lidos das Propriedades do Script
 // (PropertiesService), que NÃO vão pro GitHub.
+//
+// ANTI-SPAM: honeypot + rate limit via CacheService
 // ============================================
 
 const SHEET_ID = PropertiesService.getScriptProperties().getProperty('SHEET_ID');
 const SHEET_NAME = PropertiesService.getScriptProperties().getProperty('SHEET_NAME');
 
+// ⏱ Rate limit: quantos segundos entre submissões do mesmo usuário
+const RATE_LIMIT_SECONDS = 30;
+
 function doPost(e) {
   try {
-    if (!SHEET_ID || !SHEET_NAME) {
-      return ContentService
-        .createTextOutput(JSON.stringify({ 
-          status: 'error', 
-          message: 'SHEET_ID ou SHEET_NAME não configurados nas Propriedades do Script.' 
-        }))
-        .setMimeType(ContentService.MimeType.JSON);
+    // ================================================
+    // 🍯 HONEYPOT — campo invisível que bots preenchem
+    // Se o campo _hp veio preenchido, é BOT — 
+    // retorna sucesso falso pra não desconfiar
+    // ================================================
+    if (e.parameter._hp && e.parameter._hp.trim() !== '') {
+      return respond({ status: 'ok', note: 'honeypot' });
     }
 
+    // ================================================
+    // ⏱ RATE LIMIT — CacheService (expira em 2 min)
+    // Cada session_id só pode enviar 1 vez a cada 30s
+    // ================================================
+    const sessionId = e.parameter._sid;
+    if (sessionId) {
+      const cache = CacheService.getScriptCache();
+      const lastSubmission = cache.get('rl:' + sessionId);
+      if (lastSubmission) {
+        const elapsed = (Date.now() - parseInt(lastSubmission, 10)) / 1000;
+        if (elapsed < RATE_LIMIT_SECONDS) {
+          return respond({ 
+            status: 'rate_limited', 
+            message: 'Aguarde alguns segundos antes de enviar novamente.' 
+          });
+        }
+      }
+      // Marca submissão
+      cache.put('rl:' + sessionId, Date.now().toString(), 120);
+    }
+
+    // ================================================
+    // ✅ VALIDAÇÃO — SHEET_ID configurado?
+    // ================================================
+    if (!SHEET_ID || !SHEET_NAME) {
+      return respond({ 
+        status: 'error', 
+        message: 'SHEET_ID ou SHEET_NAME não configurados nas Propriedades do Script.' 
+      });
+    }
+
+    // ================================================
+    // 📝 ESCREVE NA PLANILHA
+    // ================================================
     const sheet = SpreadsheetApp.openById(SHEET_ID).getSheetByName(SHEET_NAME);
 
     // Se a planilha não existir, cria com cabeçalhos
@@ -49,15 +88,18 @@ function doPost(e) {
       params.question || ''
     ]);
 
-    return ContentService
-      .createTextOutput(JSON.stringify({ status: 'ok' }))
-      .setMimeType(ContentService.MimeType.JSON);
+    return respond({ status: 'ok' });
 
   } catch (error) {
-    return ContentService
-      .createTextOutput(JSON.stringify({ status: 'error', message: error.toString() }))
-      .setMimeType(ContentService.MimeType.JSON);
+    return respond({ status: 'error', message: error.toString() });
   }
+}
+
+// Helper pra responder JSON
+function respond(data) {
+  return ContentService
+    .createTextOutput(JSON.stringify(data))
+    .setMimeType(ContentService.MimeType.JSON);
 }
 
 // Roda uma vez manualmente para criar a aba
