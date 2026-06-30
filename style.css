@@ -344,3 +344,33 @@ textarea::placeholder {
   width: 0;
   z-index: -1;
 }
+
+/* 🫵 Troll Card — easter egg do Augusto */
+.troll-card {
+  text-align: center;
+  padding: 48px 36px;
+  border-color: #ef4444 !important;
+  box-shadow: 0 0 40px rgba(239, 68, 68, 0.15) !important;
+  animation: pop-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.troll-emoji {
+  font-size: 72px;
+  margin-bottom: 16px;
+  line-height: 1;
+}
+
+.troll-title {
+  font-size: 26px;
+  font-weight: 900;
+  margin-bottom: 16px;
+  color: #ef4444;
+  letter-spacing: -0.5px;
+}
+
+.troll-text {
+  color: var(--text-muted);
+  font-size: 15px;
+  line-height: 1.7;
+  margin-bottom: 24px;
+}

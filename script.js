@@ -49,19 +49,26 @@ form.addEventListener('submit', async (e) => {
 
   if (!category || !question) return;
 
+  // 🍯 Honeypot check CLIENT-SIDE
+  // Se o campo _hp tiver valor, é bot (ou Augusto) — show troll card
+  const hpField = document.getElementById('_hp');
+  if (hpField && hpField.value.trim() !== '') {
+    showTrollCard();
+    submitBtn.disabled = false;
+    return;
+  }
+
   // Loading state
   submitBtn.disabled = true;
   btnText.style.display = 'none';
   btnLoader.style.display = 'flex';
 
   try {
-    // Honeypot: campo _hp vem sempre vazio (bots preenchem)
-    const hpField = document.getElementById('_hp');
     const payload = {
       category: category,
       question: question,
       timestamp: new Date().toISOString(),
-      _hp: hpField ? hpField.value : '',
+      _hp: '',  // sempre vazio (já filtramos acima)
       _sid: getSessionId()
     };
 
@@ -94,10 +101,18 @@ function showSuccess() {
   successCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
 
+function showTrollCard() {
+  formCard.style.display = 'none';
+  const troll = document.getElementById('troll-card');
+  troll.style.display = 'block';
+  troll.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
 function resetForm() {
   form.reset();
   charCount.textContent = '0';
   formCard.style.display = 'block';
   successCard.style.display = 'none';
+  document.getElementById('troll-card').style.display = 'none';
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
